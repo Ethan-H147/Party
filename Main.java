@@ -4,18 +4,19 @@ import java.util.Scanner; // Import the Scanner class to read text files
 import java.util.*;
 
 public class Main{
-	ArrayList<Attendee> Party = new ArrayList<Attendee>();
 	
 	
 	public static void main (String[] args){  
-		
-		int id;
+	Party p1 = new Party();
+	ArrayList<Attendee> party = new ArrayList<Attendee>();
+	int id;
 	String fName;
 	String lName;
 	int comp;
 	String Company;
+	String[] companyNames = {"WalMart","Kroger","Amazon","Lowes","Best Western","KMart","Fusian","Heinz","Gucci","Prada","Nike","Dodge","Maserati","Razor","AMD","Razer"};
 	String[] myArray;
-		
+	//ArrayList<Attendee>[][] table= new ArrayList<Attendee>[10][10];
 		
 		try {
       File myObj = new File("partyguests.txt");
@@ -28,15 +29,27 @@ public class Main{
         lName = myArray[1];
         fName = myArray[2];
         comp = Integer.parseInt(myArray[3]);
+        Company = companyNames[comp-1];
         Attendee a = new Attendee(id, lName, fName, comp);
-        System.out.println();
-        
+        party.add(a);
       }
       myReader.close();
     } catch (FileNotFoundException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
-    }
+    }Scanner scan = new Scanner(System.in);
+    String searchname= scan.nextLine();
+	//System.out.print(searchAttendee(party, searchname));
+	//addAttendee();
+    System.out.print(party);
+
+	
+	
+	//ArrayList<Attendee> tables =
+	
+	
+	
+	
 	}
 }
 
