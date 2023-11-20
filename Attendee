@@ -10,7 +10,9 @@ public class Attendee {
 	private int comp;
 	private String Company;
 	
-	//String[] companies =; 
+	String[] companyNames = {"WalMart","Kroger","Amazon","Lowes","Best Western","KMart","Fusian","Heinz","Gucci","Prada","Nike","Dodge","Maserati","Razor","AMD","Razer"};
+
+
 	public Attendee(int initID, String initlName, String initfName, int initComp){
 		ID = initID;
 		fName = initfName;
@@ -19,23 +21,25 @@ public class Attendee {
 		
 	}
 	
-	/*public static void addAttendee(){
-		int id = Scan.nextInt;
-	} */
+	public static void addAttendee(){
+		Scanner scan = new Scanner(System.in);
+		int id = scan.nextInt();
+		String lName = scan.nextLine();
+		String fName = scan.nextLine();
+		int comp = scan.nextInt();
+	} 
 	
 	public String toString(){
 			return (ID+" "+fName+" "+lName+" "+comp);
 		}
 		
-	public int searchAttendee(ArrayList<Attendee> party, String name){
-		for(int i=0; i<party.size();i++){
-			if (party.get(i).fName==name){
-			
-			return i;
-			}
-		}
-	return 1;
-	}
 	
+	
+	public String getlName(){
+		return lName;
+	}
+	public String getfName(){
+		return fName;
+	}
 }
 
