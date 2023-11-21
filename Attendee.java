@@ -18,16 +18,9 @@ public class Attendee {
 		fName = initfName;
 		lName = initlName;
 		comp = initComp;
-		
 	}
 	
-	public static void addAttendee(){
-		Scanner scan = new Scanner(System.in);
-		int id = scan.nextInt();
-		String lName = scan.nextLine();
-		String fName = scan.nextLine();
-		int comp = scan.nextInt();
-	} 
+	
 	
 	public String toString(){
 			return (ID+" "+fName+" "+lName+" "+comp);
