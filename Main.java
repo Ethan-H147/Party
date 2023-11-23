@@ -48,14 +48,22 @@ public class Main{
             if(p1.searchAttendee(party, searchName)==-1){
               System.out.print("Attendee doesn't exist\n");
             }
-            System.out.print(p1.searchAttendee(party, searchName)+party.get(p1.searchAttendee(party, searchName)-1).getlName());
+            System.out.print(p1.searchAttendee(party, searchName)+". "+party.get(p1.searchAttendee(party, searchName)-1).getfName()+" "+party.get(p1.searchAttendee(party, searchName)-1).getlName());
+        }
+
+        if (function.equalsIgnoreCase("add")) {
+            System.out.print("Enter first name and last name: ");
+            p1.addAttendee(party);
         }
     
-    //System.out.print(party);
+    System.out.print(party);
 
 	
 	
 	//ArrayList<Attendee> tables =
+	
+	
+	
 	
 	}
 }
