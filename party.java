@@ -21,13 +21,13 @@ public class Party{
 
 }
 
-	public static void addAttendee(){
+	public static void addAttendee(ArrayList<Attendee> party){
 		Scanner scan = new Scanner(System.in);
-		int id = scan.nextInt();
-		String lName = scan.nextLine();
-		String fName = scan.nextLine();
+		String tempname = scan.nextLine();
+        String[] newName = tempname.split(" ");
 		int comp = scan.nextInt();
-		Attendee newAttendee = new Attendee(party.size()+1,lName,fName,comp);
+		Attendee newAttendee = new Attendee(party.size()+1,newName[0],newName[1],comp);
+		party.add(newAttendee);
 	} 
 
 
