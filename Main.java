@@ -16,6 +16,7 @@ public class Main{
 	String Company;
 	String[] companyNames = {"WalMart","Kroger","Amazon","Lowes","Best Western","KMart","Fusian","Heinz","Gucci","Prada","Nike","Dodge","Maserati","Razor","AMD","Razer"};
 	String[] myArray;
+  int totalTable = 10;
 		
 		try {
       File myObj = new File("partyguests.txt");
@@ -38,9 +39,12 @@ public class Main{
       e.printStackTrace();
     }Scanner scan = new Scanner(System.in);
 
+    if(!p1.partyCheck(party)){
+      System.out.println("Company member limit or party limit exceeded.");
+    }
     String function = "x";
   
-    System.out.print("What do you want to do?(Search/Add/Sort)");
+    System.out.print("What do you want to do?(Search/Add/Sort/Assign)");
     function= scan.nextLine();
     if (function.equalsIgnoreCase("search")) {
             System.out.print("Enter first name or last name: ");
@@ -51,19 +55,21 @@ public class Main{
             System.out.print(p1.searchAttendee(party, searchName)+". "+party.get(p1.searchAttendee(party, searchName)-1).getfName()+" "+party.get(p1.searchAttendee(party, searchName)-1).getlName());
         }
 
-        if (function.equalsIgnoreCase("add")) {
+      if (function.equalsIgnoreCase("add")) {
             System.out.print("Enter first name and last name: ");
             p1.addAttendee(party);
         }
-    
-    System.out.print(party);
 
-	
-	
-	//ArrayList<Attendee> tables =
-	
-	
-	
+      if (function.equalsIgnoreCase("assign")) {
+        ArrayList<ArrayList<Attendee>> tables = p1.assignTables(party);
+
+          for(int i = 0;i<totalTable;i++){
+            System.out.println(tables.get(i));
+          }
+        }
+    
+      //System.out.print(party);
+      
 	
 	}
 }
