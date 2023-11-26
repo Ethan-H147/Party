@@ -1,15 +1,15 @@
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-// Import the Scanner class to read text files
-import java.util.*;
-
-
 /**
  * Ethan Hu
  * 2023/11/26
  * Party Planner
  * Main Class-core of the program, controlling the basic running logic
  */
+
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+// Import the Scanner class to read text files
+import java.util.*;
+
 
 
   /*
