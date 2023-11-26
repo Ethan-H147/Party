@@ -1,7 +1,7 @@
 # Party
 AP CSA Party
 
-Functions:
+## Functions:
 
 # Search
 Print the ID, first and last name and company of the attendee. If the tables are already assigned, it will also print the table and seat number.
