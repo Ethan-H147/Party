@@ -1,14 +1,14 @@
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-// Import the Scanner class to read text files
-import java.util.*;
-
 /**
  * Ethan Hu
  * 2023/11/26
  * Party Planner
  * Party Class-methods for organizing and looking up information
  */
+
+import java.io.File;  // Import the File class
+import java.io.FileNotFoundException;  // Import this class to handle errors
+// Import the Scanner class to read text files
+import java.util.*;
 
 
  /*
