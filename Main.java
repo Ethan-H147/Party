@@ -17,6 +17,7 @@ public class Main{
 	String[] companyNames = {"WalMart","Kroger","Amazon","Lowes","Best Western","KMart","Fusian","Heinz","Gucci","Prada","Nike","Dodge","Maserati","Razor","AMD","Razer"};
 	String[] myArray;
   int totalTable = 10;
+  ArrayList<ArrayList<Attendee>> tables = new ArrayList<>();
 		
 		try {
       File myObj = new File("partyguests.txt");
@@ -40,37 +41,67 @@ public class Main{
     }Scanner scan = new Scanner(System.in);
 
     if(!p1.partyCheck(party)){
-      System.out.println("Company member limit or party limit exceeded.");
+      System.out.println("Company member limit or party limit exceeded. Unable to assign tables.");
     }
     String function = "x";
-  
-    System.out.print("What do you want to do?(Search/Add/Sort/Assign)");
+    do{
+    System.out.print("What do you want to do?(Search/Add/Assign/Table/Company Search/Quit)");
     function= scan.nextLine();
-    if (function.equalsIgnoreCase("search")) {
+
+
+    
+    if(function.equalsIgnoreCase("search")) {
             System.out.print("Enter first name or last name: ");
             String searchName = scan.nextLine();
             if(p1.searchAttendee(party, searchName)==-1){
-              System.out.print("Attendee doesn't exist\n");
+              System.out.print("Attendee doesn't exist.\n");
             }
+            else{
             System.out.print(p1.searchAttendee(party, searchName)+". "+party.get(p1.searchAttendee(party, searchName)-1).getfName()+" "+party.get(p1.searchAttendee(party, searchName)-1).getlName());
-        }
+            System.out.println(" / "+companyNames[party.get(p1.searchAttendee(party, searchName)-1).getComp()-1]);
+            for(int i=0; i<tables.size(); i++) {
+              ArrayList<Attendee> currentTable=tables.get(i);
+              for (int j=0; j<currentTable.size(); j++) {
+                  Attendee attendee = currentTable.get(j);
+                  if (attendee.getfName().equalsIgnoreCase(party.get(p1.searchAttendee(party, searchName)-1).getfName()) && attendee.getlName().equalsIgnoreCase(party.get(p1.searchAttendee(party, searchName)-1).getlName())) {
+                      System.out.println("Table "+(i+1)+" Seat "+(j+1));
+                  }
+                }
+                }
+          }
+          }
 
-      if (function.equalsIgnoreCase("add")) {
+      if(function.equalsIgnoreCase("add")) {
             System.out.print("Enter first name and last name: ");
             p1.addAttendee(party);
         }
 
-      if (function.equalsIgnoreCase("assign")) {
-        ArrayList<ArrayList<Attendee>> tables = p1.assignTables(party);
-
-          for(int i = 0;i<totalTable;i++){
+      if(function.equalsIgnoreCase("assign")) {
+        tables = p1.assignTables(party);
+          /*for(int i = 0;i<totalTable;i++){
             System.out.println(tables.get(i));
-          }
+          }*/
+          System.out.println("Tables assigned.");
         }
-    
+
+        if(function.equalsIgnoreCase("table")) {
+          System.out.print("Enter the table number: ");
+          int table = scan.nextInt();
+          if(tables.size()>=table){
+          System.out.println(tables.get(table-1));
+          }
+          else{System.out.println("Table not assigned yet.");}
+        }
+
+        if(function.equalsIgnoreCase("company search")) {
+          System.out.print("Enter the company number: ");
+          int company = scan.nextInt();
+          p1.printCompany(party, company);
+        }
+        
+      }
+      while(!function.equalsIgnoreCase("Quit"));
       //System.out.print(party);
-      
-	
 	}
 }
 
