@@ -18,6 +18,7 @@ public class Attendee {
 		fName = initfName;
 		lName = initlName;
 		comp = initComp;
+		Company = companyNames[comp-1];
 	}
 	
 	
@@ -33,6 +34,9 @@ public class Attendee {
 	}
 	public String getfName(){
 		return fName;
+	}
+	public int getComp(){
+		return comp;
 	}
 }
 
