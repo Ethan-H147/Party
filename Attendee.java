@@ -41,7 +41,7 @@ public class Attendee {
 	
 	//toString method for printing
 	public String toString(){
-			return (ID+" "+fName+" "+lName+" "+comp);
+			return (ID+". "+fName+" "+lName+" "+comp);
 		}
 		
 	
@@ -58,4 +58,3 @@ public class Attendee {
 		return comp;
 	}
 }
-
