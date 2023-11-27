@@ -47,7 +47,10 @@ public class Main{
         Company = companyNames[comp-1];
         Attendee a = new Attendee(id, lName, fName, comp);
         party.add(a);
-        load++;
+        if(!p1.partyCheck(party)){
+		party.remove(load);
+		}
+        load=party.size();
       }
       myReader.close();
     } catch (FileNotFoundException e) {
