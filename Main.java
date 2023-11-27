@@ -31,6 +31,7 @@ public class Main{
 	String[] myArray;
   int totalTable = 10;
   ArrayList<ArrayList<Attendee>> tables = new ArrayList<>();//2D ArrayList, arraylist of arraylists
+  int load=0;
 		
 		try {
       File myObj = new File("partyguests.txt");
@@ -46,19 +47,20 @@ public class Main{
         Company = companyNames[comp-1];
         Attendee a = new Attendee(id, lName, fName, comp);
         party.add(a);
+        load++;
       }
       myReader.close();
     } catch (FileNotFoundException e) {
       System.out.println("An error occurred.");
       e.printStackTrace();
     }Scanner scan = new Scanner(System.in);
-
+	System.out.println(load+" people loaded.");
     if(!p1.partyCheck(party)){
       System.out.println("Company member limit or party limit exceeded. Unable to assign tables.");
     }//starting check for the list
     String function = "";
     do{
-    System.out.print("What do you want to do?(Search/Add/Assign/Table/Company Search/Quit)");
+    System.out.print("What do you want to do?(Search/Add/Assign/Table/Company Search/Roster/Quit)");
     function= scan.nextLine();
 
 
@@ -114,6 +116,10 @@ public class Main{
           System.out.print("Enter the company number: ");
           int company = scan.nextInt();
           p1.printCompany(party, company);
+        }
+        
+        if(function.equalsIgnoreCase("roster")) {
+          System.out.println(party);
         }
       }
       while(!function.equalsIgnoreCase("Quit"));//stop the program
