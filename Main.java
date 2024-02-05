@@ -1,131 +1,220 @@
-/**
- * Ethan Hu
- * 2023/11/26
- * Party Planner
- * Main Class-core of the program, controlling the basic running logic
- */
-
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
-// Import the Scanner class to read text files
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
+public class Main {
 
 
-  /*
-  central logic of the program
-  First import the text document to create a list of attendees
-  then add all the function to a while loop, keep running until the user input quit
- */
-public class Main{
-		
-	public static void main (String[] args){  
-	Party p1 = new Party();
-	ArrayList<Attendee> party = new ArrayList<Attendee>();
-	int id;
-	String fName;
-	String lName;
-	int comp;
-	String Company;
-	String[] companyNames = {"WalMart","Kroger","Amazon","Lowes","Best Western","KMart","Fusian","Heinz","Gucci","Prada","Nike","Dodge","Maserati","Razor","AMD","Razer"};
-	String[] myArray;
-  int totalTable = 10;
-  ArrayList<ArrayList<Attendee>> tables = new ArrayList<>();//2D ArrayList, arraylist of arraylists
-  int load=0;
-		
-		try {
-      File myObj = new File("partyguests.txt");
-      Scanner myReader = new Scanner(myObj);
-      while (myReader.hasNextLine()) {
-        String data = myReader.nextLine();
-        //System.out.println(data);
-        myArray = data.split(",");
-        id = Integer.parseInt(myArray[0]);//split the info into four parts to create attendee
-        lName = myArray[1];
-        fName = myArray[2];
-        comp = Integer.parseInt(myArray[3]);
-        Company = companyNames[comp-1];
-        Attendee a = new Attendee(id, lName, fName, comp);
-        party.add(a);
-        if(!p1.partyCheck(party)){
-		party.remove(load);
-		}
-        load=party.size();
+  
+
+    public static void main (String[] args){  
+    String[] myArray;
+    ArrayList<Student> grade = new ArrayList<Student>();
+    ArrayList<Seminar> sList = new ArrayList<Seminar>();
+    String name;
+    int totalSeminar=19;
+      
+      try {
+        File myObj = new File("SrSeminar_RawData.csv");
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+          String data = myReader.nextLine();
+          //System.out.println(data);
+          myArray = data.split(",");
+          //8th in the list
+          name = myArray[8];
+          int num = Integer.parseInt(myArray[9]);
+          //scan the list of seminars
+          Seminar a = new Seminar(name, num);
+          sList.add(a);
+          totalSeminar--;
+          if(totalSeminar<1){
+            break;
+          }
+        }
+        myReader.close();
+      } catch (FileNotFoundException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
       }
-      myReader.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("An error occurred.");
-      e.printStackTrace();
-    }Scanner scan = new Scanner(System.in);
-	System.out.println(load+" people loaded.");
-    if(!p1.partyCheck(party)){
-      System.out.println("Company member limit or party limit exceeded. Unable to assign tables.");
-    }//starting check for the list
-    String function = "";
-    do{
-    System.out.print("What do you want to do?(Search/Add/Assign/Table/Company Search/Roster/Quit)");
-    function= scan.nextLine();
+      try {
+        File myObj = new File("SrSeminar_RawData.csv");
+        Scanner myReader = new Scanner(myObj);
+        while (myReader.hasNextLine()) {
+          String data = myReader.nextLine();
+          //System.out.println(data);
+          myArray = data.split(",");
+          name = myArray[1];
+          Seminar[] choice=new Seminar[5];
+          for(int i=0;i<5;i++){
+            int temp = Integer.parseInt(myArray[2+i])-1;
+            if(temp==-1){
+              temp=18;
+            }
+            choice[i]=sList.get(temp);
+            sList.get(temp).pick();
+          }
+          Student a = new Student(name, choice);
+          grade.add(a);
+          //System.out.println(a);
+        }
+        myReader.close();
+      } catch (FileNotFoundException e) {
+        System.out.println("An error occurred.");
+        e.printStackTrace();
+      }
+      
+      //System.out.print(grade);
 
+      for(Student s:grade){
+        for(int i=0;i<5;i++){
+          if(!s.getChoices()[i].isPop()){
+            s.setSchedule(i,s.getChoices()[i]);
+          }
+          else{
+            s.setSchedule(i,sList.get(18));
+          }
+        }
+      }
+      int tempIndex=0;
+      int r=0;
+      int t=0;
 
+      for(Student s:grade){
+        if(s.ns()==3){
+          r=2;
+          for(int i=0;i<5;i++){
+            if(s.getChoices()[i].isPop()){
+              for(int j=0;j<5;j++){
+                if(s.getAttends()[j].getNum()==19){
+                  tempIndex=j;
+                  break;
+                }
+              }
+              if(!s.getChoices()[i].isFull()){
+              s.setSchedule(tempIndex, s.getChoices()[i]);
+              sList.get(18).quit();
+              }
+              r--;
+              if(r==0){
+                break;
+              }
+            }
+          }
+        }
+        else{
+          t=3;
+          for(int i=0;i<5;i++){
+            if(s.getChoices()[i].isPop()){
+              for(int j=0;j<5;j++){
+                if(s.getAttends()[j].getNum()==19){
+                  tempIndex=j;
+                  break;
+                }
+              }
+              if(!s.getChoices()[i].isFull()){
+              s.setSchedule(tempIndex, s.getChoices()[i]);
+              sList.get(18).quit();
+              }
+              t--;
+              if(t==0){
+                break;
+              }
+            }
+          }
+        }
+      }
+
+      Seminar rand=sList.get(18);
+      for(Student s:grade){
+          for(int i=0;i<5;i++){
+            if(s.getChoices()[i].isPop()){
+              for(int j=0;j<5;j++){
+                if(s.getAttends()[j].getNum()==19){
+                  tempIndex=j;
+                  break;
+                }
+              }
+              if(!s.getChoices()[i].isFull()){
+              s.setSchedule(tempIndex, s.getChoices()[i]);
+              }
+              else{
+                do{
+                  rand=sList.get((int)(Math.random()*18));
+                }
+                while(rand.isFull()||seminarExist(s.getChoices(), rand));
+                s.setSchedule(tempIndex, rand);
+                sList.get(18).quit();
+              }
+            }
+          }
+        }
+
+      System.out.println("Function(students/seminars/student search/seminar search)");
+      Scanner scan = new Scanner(System.in);
+      String funct;
+  do{
+      funct= scan.nextLine();
     
-    if(function.equalsIgnoreCase("search")) {
-            System.out.print("Enter first name or last name: ");
+    if(funct.equalsIgnoreCase("students")) {
+      for(Student s:grade){
+        System.out.println(s.schedule());
+      }
+    }
+    if(funct.equalsIgnoreCase("seminars")) {
+      for(Seminar s:sList){
+        System.out.println(s);
+      }
+    }
+    if(funct.equalsIgnoreCase("student search")){
+      System.out.print("Enter full name: ");
             String searchName = scan.nextLine();
-            if(p1.searchAttendee(party, searchName)==-1){//doesn't exist
-              System.out.print("Attendee doesn't exist.\n");
+            if(searchStudent(grade, searchName)==-1){//doesn't exist
+              System.out.print("Student doesn't exist.\n");
             }
             else{
-            System.out.print(p1.searchAttendee(party, searchName)+". "+party.get(p1.searchAttendee(party, searchName)-1).getfName()+" "+party.get(p1.searchAttendee(party, searchName)-1).getlName());
-            System.out.println(" / "+companyNames[party.get(p1.searchAttendee(party, searchName)-1).getComp()-1]);
-            for(int i=0; i<tables.size(); i++) {//go through the tables
-              ArrayList<Attendee> currentTable=tables.get(i);
-              for (int j=0; j<currentTable.size(); j++) {//go through the seats
-                  Attendee attendee = currentTable.get(j);
-                  //if the name matches entirely, print the table and seat number of that person
-                  if (attendee.getfName().equalsIgnoreCase(party.get(p1.searchAttendee(party, searchName)-1).getfName()) && attendee.getlName().equalsIgnoreCase(party.get(p1.searchAttendee(party, searchName)-1).getlName())) {
-                      System.out.println("Table "+(i+1)+" Seat "+(j+1));//print the table and seat
-                  }
+              System.out.print(grade.get(searchStudent(grade, searchName)-1));
+            }
+    }
+
+    if(funct.equalsIgnoreCase("seminar search")) {
+      System.out.print("Enter seminar number: ");
+            int searchSeminar = scan.nextInt()-1;
+            System.out.println(sList.get(searchSeminar));
+            Seminar temp = sList.get(searchSeminar);
+            if(temp.getAttended()>16){
+              System.out.print("2 Sessions\n");
+            }
+            else{System.out.print("1 Session\n");}
+            for(Student s:grade){
+              for(int i=0;i<5;i++){
+                if(s.getAttends()[i]==temp){
+                  System.out.println(s.getName());
                 }
-                }
-          }
-          }
+              }
+            }
+    }
 
-      if(function.equalsIgnoreCase("add")) {
-            System.out.print("Enter first name and last name: ");
-            p1.addAttendee(party);
-            if(!p1.partyCheck(party)){//adding attendee might cause the party to exceed its limits, I didn't make it stop adding attendees, but the assigning function surely won't work
-                System.out.println("Company member limit or party limit exceeded. Unable to assign tables.");
-            }//check after new member is added
-        }
+}while(!funct.equalsIgnoreCase("skip"));
+    
 
-      if(function.equalsIgnoreCase("assign")) {
-        tables = p1.assignTables(party);//just assigning, print function is in "table"
-          /*for(int i = 0;i<totalTable;i++){
-            System.out.println(tables.get(i));
-          }*/
-          System.out.println("Tables assigned.");
-        }
+}
 
-        if(function.equalsIgnoreCase("table")) {
-          System.out.print("Enter the table number: ");
-          int table = scan.nextInt();
-          if(tables.size()>=table){//check if it's printable
-          System.out.println(tables.get(table-1));
-          }
-          else{System.out.println("Table not assigned yet.");}
-        }
+public static int searchStudent(ArrayList<Student> sList, String name){
+  for(int i=0; i<sList.size();i++){
+    if (sList.get(i).getName().equalsIgnoreCase(name)){//check both last and first name
+    return i+1;
+    }
+  }
+return -1;
+}
+public static boolean seminarExist(Seminar[] sList, Seminar a){
+  for(int i=0; i<sList.length;i++){
+    if (sList[i]==a){//check both last and first name
+    return true;
+    }
+  }
+return false;
+}
 
-        if(function.equalsIgnoreCase("company search")) {
-          System.out.print("Enter the company number: ");
-          int company = scan.nextInt();
-          p1.printCompany(party, company);
-        }
-        
-        if(function.equalsIgnoreCase("roster")) {
-          System.out.println(party);
-        }
-      }
-      while(!function.equalsIgnoreCase("Quit"));//stop the program
-      //System.out.print(party);
-	}
 }
